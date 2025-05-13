@@ -31,12 +31,16 @@ function restartGame() {
 </script>
 
 <template>
-  <LandingPage v-if="view === 'landing'" @startGame="startGame" />
-  <GamePage v-else-if="view === 'game'" :currentFact="currentFact" @answered="checkAnswer" />
-  <ResultPage v-else :isCorrect="isCorrect" @restart="restartGame" />
+  <section :class="['fake-shader', view]">
+    <div class="content">
+      <LandingPage v-if="view === 'landing'" @startGame="startGame" />
+      <GamePage v-else-if="view === 'game'" :currentFact="currentFact" @answered="checkAnswer" />
+      <ResultPage v-else :isCorrect="isCorrect" @restart="restartGame" />
+    </div>
+  </section>
 </template>
 
-<style scoped>
+<style>
 /* Add a simple fade in transition */
 * {
   transition: all 0.3s ease;
