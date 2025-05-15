@@ -1,12 +1,37 @@
 <script setup>
+import { motion } from 'motion-v'
+
 const emit = defineEmits(['startGame'])
 </script>
 
 <template>
   <div class="landing">
-    <h1>Are You Sure?</h1>
-    <p class="description">A daily dose of doubt. Choose wisely.</p>
-    <button class="start-btn" @click="emit('startGame')">Start</button>
+    <motion.h1
+      :initial="{ opacity: 0, y: 20, filter: 'blur(6px)' }"
+      :animate="{ opacity: 1, y: 0, filter: 'blur(0px)' }"
+      :transition="{ duration: 1.5, easing: 'ease-out' }"
+    >
+      Are You Sure?
+    </motion.h1>
+
+    <motion.p
+      class="description"
+      :initial="{ opacity: 0, y: 30, filter: 'blur(8px)' }"
+      :animate="{ opacity: 1, y: 0, filter: 'blur(0px)' }"
+      :transition="{ duration: 1.9, delay: 0.5, easing: 'ease-out' }"
+    >
+      A daily dose of doubt. Choose wisely.
+    </motion.p>
+
+    <motion.button
+      class="start-btn"
+      :initial="{ opacity: 0, scale: 0.8 }"
+      :animate="{ opacity: 1, scale: 1 }"
+      :transition="{ duration: 2, delay: 2 }"
+      @click="emit('startGame')"
+    >
+      Start
+    </motion.button>
   </div>
 </template>
 
@@ -21,10 +46,11 @@ h1 {
   margin-bottom: 1rem;
 }
 
-p.description {
+.description {
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   opacity: 0.7;
   margin-bottom: 2rem;
+  color: aliceblue;
 }
 
 .start-btn {

@@ -1,52 +1,116 @@
 <!-- GamePage.vue -->
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { motion } from 'motion-v'
 
 const props = defineProps(['currentFact', 'language'])
-const emit = defineEmits(['answered'])
+const emit = defineEmits(['next'])
 
 const answered = ref(false)
 const isCorrect = ref(null)
 
-const factText = computed(() => props.currentFact.text[props.language])
-const factExplanation = computed(() => props.currentFact.explanation[props.language])
-
 function handleAnswer(userAnswer) {
-  isCorrect.value = userAnswer === props.currentFact.isTrue
-  answered.value = true
+  if (props.currentFact) {
+    isCorrect.value = userAnswer === props.currentFact.isTrue
+    answered.value = true
+  }
 }
 
 function nextFact() {
   answered.value = false
   isCorrect.value = null
-  emit('answered', true) // просто сигналізуємо батьківському компоненту, що готові до наступного факту
+  emit('next')
 }
 </script>
 
 <template>
   <div class="game">
-    <h2>{{ factText }}</h2>
+    <template v-if="currentFact">
+      <!-- Питання -->
+      <motion.h2
+        :initial="{ opacity: 0, y: -20, fontSize: '45px' }"
+        :animate="{
+          opacity: 1,
+          y: 0,
+          fontSize: answered ? '30px' : '45px',
+        }"
+        :transition="{ duration: 0.5 }"
+      >
+        {{ currentFact.text[language] }}
+      </motion.h2>
 
-    <div v-if="!answered" class="buttons">
-      <button @click="handleAnswer(true)">✅</button>
-      <button @click="handleAnswer(false)">❌</button>
-    </div>
+      <!-- Якщо ще не відповіли -->
+      <motion.div v-if="!answered" class="buttons">
+        <motion.button
+          :initial="{ opacity: 0, scale: 0.8 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :transition="{ duration: 0.3, delay: 0.2 }"
+          @click="handleAnswer(true)"
+        >
+          ✅
+        </motion.button>
 
-    <div v-else class="result">
-      <h2>{{ isCorrect ? 'Correct! 🎉' : 'Oops! ❌' }}</h2>
-      <div class="explanation">
-        <p>{{ factExplanation }}</p>
-      </div>
-      <button @click="nextFact">Random Fact</button>
-    </div>
+        <motion.button
+          :initial="{ opacity: 0, scale: 0.8 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :transition="{ duration: 0.3, delay: 0.4 }"
+          @click="handleAnswer(false)"
+        >
+          ❌
+        </motion.button>
+      </motion.div>
+
+      <!-- Якщо відповів -->
+      <motion.div v-else class="result">
+        <motion.h2
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5 }"
+        >
+          {{ isCorrect ? 'Correct! 🎉' : 'Oops! ❌' }}
+        </motion.h2>
+
+        <motion.p
+          class="explanation"
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: 0.2 }"
+          >{{ currentFact.explanation[language] }}
+        </motion.p>
+
+        <motion.button
+          :initial="{ opacity: 0, scale: 0.8 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :transition="{ duration: 0.4, delay: 0.5 }"
+          @click="nextFact"
+        >
+          Next Fact
+        </motion.button>
+      </motion.div>
+    </template>
+
+    <!-- Якщо сьогодні вже все -->
+    <template v-else>
+      <motion.h2
+        :initial="{ opacity: 0, y: -20 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: 0.5 }"
+      >
+        {{
+          language === 'en'
+            ? 'Come back tomorrow for more doubt!'
+            : 'Повертайся завтра за новою порцією сумніву!'
+        }}
+      </motion.h2>
+    </template>
   </div>
 </template>
 
 <style scoped>
 .game {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 80px;
 }
 
 .buttons {
@@ -75,5 +139,6 @@ button:hover {
 .explanation {
   margin-top: 20px;
   padding: 10px;
+  font-size: 28px;
 }
 </style>
