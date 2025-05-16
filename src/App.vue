@@ -1,10 +1,11 @@
 <!-- App.vue -->
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import LandingPage from './components/LandingPage.vue'
 import GamePage from './components/GamePage.vue'
 import { facts } from './assets/facts.js'
+import { translations } from './assets/i18n.js'
 
 const view = ref('landing') // 'landing', 'game'
 const language = ref(localStorage.getItem('language') || 'en')
@@ -12,6 +13,13 @@ const language = ref(localStorage.getItem('language') || 'en')
 const currentFact = ref(null)
 const factsToday = ref(parseInt(localStorage.getItem('factsToday')) || 0)
 const lastPlayedDate = ref(localStorage.getItem('lastPlayedDate') || '')
+
+const t = computed(() => translations[language.value].ui)
+
+function setLanguage(lang) {
+  language.value = lang
+  localStorage.setItem('language', lang)
+}
 
 const DAILY_LIMIT = 3
 
@@ -56,18 +64,21 @@ onMounted(() => {
 
 <template>
   <section :class="['fake-shader', view]">
+    <div class="language-switcher">
+      <button @click="setLanguage('en')">🇬🇧</button>
+      <button @click="setLanguage('ua')">🇺🇦</button>
+      <button @click="setLanguage('de')">🇩🇪</button>
+    </div>
+
     <div class="content">
-      <header class="header">
-        <!-- <h1>Daily Fact Game</h1> -->
-        <button @click="toggleLanguage">
-          {{ language === 'en' ? '🇬🇧 Switch to Ukrainian' : '🇺🇦 Переключити на англійську' }}
-        </button>
-      </header>
-
-      <LandingPage v-if="view === 'landing'" @startGame="startGame" />
-
+      <LandingPage v-if="view === 'landing'" :language="language" @startGame="startGame" />
       <GamePage v-else :currentFact="currentFact" :language="language" @next="getNewFact" />
     </div>
+
+    <!-- <div class="content">
+      <LandingPage v-if="view === 'landing'" @startGame="startGame" />
+      <GamePage v-else :currentFact="currentFact" :language="language" @next="getNewFact" />
+    </div> -->
   </section>
 </template>
 
@@ -89,5 +100,25 @@ button {
 
 button:hover {
   background: #5e35b1;
+}
+
+.language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.language-switcher button {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.language-switcher button:hover {
+  transform: scale(1.2);
 }
 </style>

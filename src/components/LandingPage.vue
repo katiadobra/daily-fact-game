@@ -1,7 +1,21 @@
 <script setup>
 import { motion } from 'motion-v'
+import { computed } from 'vue'
+import { defineProps, defineEmits } from 'vue'
+import { translations } from '@/assets/i18n'
 
+const props = defineProps(['language'])
 const emit = defineEmits(['startGame'])
+
+const t = computed(() => translations[props.language].landing)
+
+const title = computed(() => (props.language === 'en' ? 'Are You Sure?' : 'Ти впевнений?'))
+const description = computed(() =>
+  props.language === 'en'
+    ? 'A daily dose of doubt. Choose wisely.'
+    : 'Щоденна доза сумніву. Обирай обережно.',
+)
+const startButton = computed(() => (props.language === 'en' ? 'Start' : 'Почати'))
 </script>
 
 <template>
@@ -11,7 +25,7 @@ const emit = defineEmits(['startGame'])
       :animate="{ opacity: 1, y: 0, filter: 'blur(0px)' }"
       :transition="{ duration: 1.5, easing: 'ease-out' }"
     >
-      Are You Sure?
+      {{ t.title }}
     </motion.h1>
 
     <motion.p
@@ -20,7 +34,7 @@ const emit = defineEmits(['startGame'])
       :animate="{ opacity: 1, y: 0, filter: 'blur(0px)' }"
       :transition="{ duration: 1.9, delay: 0.5, easing: 'ease-out' }"
     >
-      A daily dose of doubt. Choose wisely.
+      {{ t.description }}
     </motion.p>
 
     <motion.button
@@ -30,7 +44,7 @@ const emit = defineEmits(['startGame'])
       :transition="{ duration: 2, delay: 2 }"
       @click="emit('startGame')"
     >
-      Start
+      {{ t.start }}
     </motion.button>
   </div>
 </template>
@@ -50,7 +64,7 @@ h1 {
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   opacity: 0.7;
   margin-bottom: 2rem;
-  color: aliceblue;
+  color: #535d66;
 }
 
 .start-btn {

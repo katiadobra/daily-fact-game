@@ -1,14 +1,17 @@
 <!-- GamePage.vue -->
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { motion } from 'motion-v'
+import { translations } from '@/assets/i18n'
 
 const props = defineProps(['currentFact', 'language'])
 const emit = defineEmits(['next'])
 
 const answered = ref(false)
 const isCorrect = ref(null)
+
+const t = computed(() => translations[props.language].game)
 
 function handleAnswer(userAnswer) {
   if (props.currentFact) {
@@ -31,11 +34,11 @@ function nextFact() {
       <motion.h2
         :initial="{ opacity: 0, y: -20, fontSize: '45px' }"
         :animate="{
-          opacity: 1,
+          opacity: answered ? 0.6 : 1,
           y: 0,
           fontSize: answered ? '30px' : '45px',
         }"
-        :transition="{ duration: 0.5 }"
+        :transition="{ duration: 1 }"
       >
         {{ currentFact.text[language] }}
       </motion.h2>
@@ -68,15 +71,16 @@ function nextFact() {
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5 }"
         >
-          {{ isCorrect ? 'Correct! 🎉' : 'Oops! ❌' }}
+          {{ isCorrect ? t.correct : t.incorrect }}
         </motion.h2>
 
         <motion.p
           class="explanation"
-          :initial="{ opacity: 0, y: 20 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.5, delay: 0.2 }"
-          >{{ currentFact.explanation[language] }}
+          :initial="{ opacity: 0, y: 20, filter: 'blur(8px)' }"
+          :animate="{ opacity: 1, y: 0, filter: 'blur(0px)' }"
+          :transition="{ duration: 1.2, delay: 0.8, easing: 'ease-out' }"
+        >
+          {{ currentFact.explanation[language] }}
         </motion.p>
 
         <motion.button
@@ -85,7 +89,7 @@ function nextFact() {
           :transition="{ duration: 0.4, delay: 0.5 }"
           @click="nextFact"
         >
-          Next Fact
+          {{ t.next }}
         </motion.button>
       </motion.div>
     </template>
@@ -97,11 +101,7 @@ function nextFact() {
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5 }"
       >
-        {{
-          language === 'en'
-            ? 'Come back tomorrow for more doubt!'
-            : 'Повертайся завтра за новою порцією сумніву!'
-        }}
+        {{ t.comeBack }}
       </motion.h2>
     </template>
   </div>
@@ -138,7 +138,7 @@ button:hover {
 
 .explanation {
   margin-top: 20px;
-  padding: 10px;
-  font-size: 28px;
+  padding: clamp(20px, 40px, 60px);
+  font-size: clamp(1rem, 1.5rem, 2rem);
 }
 </style>
