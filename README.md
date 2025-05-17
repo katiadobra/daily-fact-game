@@ -34,10 +34,10 @@ Simple. Fast. Dangerous.
 - [x] Result page (correct / incorrect feedback)
 - [x] Basic CSS styling (responsive)
 - [ ] Smooth fade transitions between pages
-- [ ] Add explanation text to facts
+- [x] Add explanation text to facts
 - [ ] Track correct answers (basic score counter)
-- [ ] Save daily play status to `localStorage`
-- [ ] Deploy live with GitHub Pages or Netlify
+- [x] Save daily play status to `localStorage`
+- [x] Deploy live with GitHub Pages or Netlify
 
 ---
 
