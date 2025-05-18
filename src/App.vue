@@ -74,18 +74,12 @@ onMounted(() => {
       <LandingPage v-if="view === 'landing'" :language="language" @startGame="startGame" />
       <GamePage v-else :currentFact="currentFact" :language="language" @next="getNewFact" />
     </div>
-
-    <!-- <div class="content">
-      <LandingPage v-if="view === 'landing'" @startGame="startGame" />
-      <GamePage v-else :currentFact="currentFact" :language="language" @next="getNewFact" />
-    </div> -->
   </section>
 </template>
 
 <style scoped>
-.header {
-  text-align: center;
-  margin-bottom: 20px;
+.content {
+  padding: 30px;
 }
 
 button {

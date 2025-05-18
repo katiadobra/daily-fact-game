@@ -32,11 +32,11 @@ function nextFact() {
     <template v-if="currentFact">
       <!-- Питання -->
       <motion.h2
-        :initial="{ opacity: 0, y: -20, fontSize: '45px' }"
+        class="fact"
+        :initial="{ opacity: 0, y: -20 }"
         :animate="{
           opacity: answered ? 0.6 : 1,
           y: 0,
-          fontSize: answered ? '30px' : '45px',
         }"
         :transition="{ duration: 1 }"
       >
@@ -69,7 +69,7 @@ function nextFact() {
         <motion.h2
           :initial="{ opacity: 0, y: 20 }"
           :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.5 }"
+          :transition="{ duration: 0.8 }"
         >
           {{ isCorrect ? t.correct : t.incorrect }}
         </motion.h2>
@@ -78,7 +78,7 @@ function nextFact() {
           class="explanation"
           :initial="{ opacity: 0, y: 20, filter: 'blur(8px)' }"
           :animate="{ opacity: 1, y: 0, filter: 'blur(0px)' }"
-          :transition="{ duration: 1.2, delay: 0.8, easing: 'ease-out' }"
+          :transition="{ duration: 1, delay: 0.5, easing: 'ease-out' }"
         >
           {{ currentFact.explanation[language] }}
         </motion.p>
@@ -112,6 +112,9 @@ function nextFact() {
   text-align: center;
   margin-top: 80px;
 }
+.fact {
+  font-size: clamp(1rem, 1.5rem, 2rem);
+}
 
 .buttons {
   margin-top: 20px;
@@ -139,6 +142,6 @@ button:hover {
 .explanation {
   margin-top: 20px;
   padding: clamp(20px, 40px, 60px);
-  font-size: clamp(1rem, 1.5rem, 2rem);
+  font-size: clamp(0.8rem, 1rem, 1.5rem);
 }
 </style>

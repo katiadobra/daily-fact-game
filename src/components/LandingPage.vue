@@ -64,7 +64,6 @@ h1 {
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   opacity: 0.7;
   margin-bottom: 2rem;
-  color: #535d66;
 }
 
 .start-btn {
