@@ -1,7 +1,6 @@
 <script setup>
 import { motion } from 'motion-v'
 import { computed } from 'vue'
-import { defineProps, defineEmits } from 'vue'
 import { translations } from '@/assets/i18n'
 
 const props = defineProps(['language'])
@@ -71,7 +70,7 @@ h1 {
   font-size: 1.2rem;
   border: 2px solid #262b29;
   background-color: transparent;
-  color: #262b29;
+  color: #050505;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
