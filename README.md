@@ -33,7 +33,7 @@ Simple. Fast. Dangerous.
 - [x] Game page with random facts
 - [x] Result page (correct / incorrect feedback)
 - [x] Basic CSS styling (responsive)
-- [ ] Smooth fade transitions between pages
+- [x] Smooth fade transitions between pages
 - [x] Add explanation text to facts
 - [ ] Track correct answers (basic score counter)
 - [x] Save daily play status to `localStorage`
