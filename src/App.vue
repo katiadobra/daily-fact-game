@@ -21,7 +21,7 @@ function setLanguage(lang) {
   localStorage.setItem('language', lang)
 }
 
-const DAILY_LIMIT = 3
+const DAILY_LIMIT = 5
 
 // Перевірка на новий день
 function checkNewDay() {
