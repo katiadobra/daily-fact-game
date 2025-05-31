@@ -36,7 +36,7 @@ Simple. Fast. Dangerous.
 - [x] Smooth fade transitions between pages
 - [x] Add explanation text to facts
 - [ ] Track correct answers (basic score counter)
-- [x] Save daily play status to `localStorage`
+- [ ] Save daily play status to `localStorage`
 - [x] Deploy live with GitHub Pages or Netlify
 
 ---
